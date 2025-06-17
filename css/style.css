@@ -1,0 +1,213 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+body {
+	width: 100%;
+	height: 100vh;
+	margin: 0;
+	padding: 1.5rem;
+	font-family: 'Montserrat', sans-serif;
+	color: white;
+	background-color: #1c2230;
+	background-image: linear-gradient(135deg, #3c8ce7 0%, #43b2dd 25%, #41afda 50%, #358fc3 75%, #2962a4 100%);
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+h1 {
+	display: block;
+	margin: -1rem 0 1rem 0;
+	font-size: 1.4rem;
+	text-align: right;
+}
+
+h2 {
+	display: block;
+	margin: 0;
+	font-size: 1.2rem;
+}
+
+h3 {
+	display: block;
+	margin: 0;
+	font-size: 1.1rem;
+}
+
+hr {
+	width: 100%;
+	height: 1px;
+	margin: 1.5rem 0 1rem 0;
+	border: 0;
+	color: inherit;
+	opacity: 0.5;
+	background-color: transparent;
+	background-image: linear-gradient(to right, transparent 0%, white 50%, transparent 100%);
+}
+
+.box-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	width: 100%;
+	gap: 1rem;
+}
+
+.box {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex: 0 0 calc((100% - 1rem) / 2);
+	max-width: calc((100% - 1rem) / 2);
+	padding: 1rem;
+	margin-top: 0.8rem;
+	background-color: rgba(255, 255, 255, 0.05);
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+	border-radius: 10px;
+}
+
+.box .status {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+	margin-top: 0.5rem;
+	font-size: 0.8rem;
+}
+
+.box .status-indicator {
+	display: inline-block;
+	width: 0.7rem;
+	height: 0.7rem;
+	border-radius: 50%;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.box[data-status='on'] .status-indicator {
+	background-color: #00ff66;
+	box-shadow: 0 0 8px #00ff66;
+}
+
+.box[data-status='off'] .status-indicator {
+	background-color: #ff0000;
+	box-shadow: 0 0 8px #fd0000;
+}
+
+.box[data-status='loading'] .status-indicator {
+	background-color: #e07b00;
+	box-shadow: 0 0 8px #e07b00;
+}
+
+.box[data-status='off'] .label-time,
+.box[data-status='off'] .status-time,
+.box[data-status='loading'] .label-time,
+.box[data-status='loading'] .status-time {
+	display: none;
+}
+
+.box .button-group {
+	position: absolute;
+	top: -0.8rem;
+	right: 1rem;
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: end;
+	gap: 0.5rem;
+}
+
+.box .button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	width: 2.2rem;
+	height: 2.2rem;
+	padding: 0.5rem;
+	border: none;
+	border-radius: 50%;
+	color: white;
+	font-size: 0.7rem;
+	font-weight: bold;
+	cursor: pointer;
+	background: linear-gradient(145deg, #00b4db, #3c8ce7);
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+	transition: all 0.3s ease;
+}
+
+.box .button:hover {
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 255, 255, 0.5);
+	transform: scale(1.05);
+}
+
+.box .button[disabled] {
+	opacity: 0.9;
+	pointer-events: none;
+	color: #ccc;
+}
+
+.box[data-status='loading'] .button,
+.box[data-status='on'] .button[data-action='start'],
+.box[data-status='off'] .button[data-action='stop'],
+.box[data-status='off'] .button[data-action='restart'] {
+	display: none;
+}
+
+.tools-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	width: 100%;
+	gap: 1rem;
+}
+
+.tool {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.25rem;
+	flex: 0 0 calc((100% - 3rem) / 4);
+	max-width: calc((100% - 3rem) / 4);
+	padding: 0.5rem 0.75rem;
+	margin-top: 0.8rem;
+	border: none;
+	color: white;
+	background: rgba(255, 255, 255, 0.05);
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+	border-radius: 10px;
+	transition: all 0.3s ease;
+	cursor: pointer;
+}
+
+.tool[disabled] {
+	opacity: 0.9;
+	pointer-events: none;
+	color: #ccc;
+}
+
+.tool:hover {
+	background: linear-gradient(145deg, #00b4db, #3c8ce7);
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.tool svg {
+	width: 1.4rem;
+	height: 1.4rem;
+	margin-bottom: 0.25rem;
+}
+
+#status-bar {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0.25rem;
+	width: 100%;
+	height: 1rem;
+	padding: 0 0.5rem;
+	line-height: 1.2rem;
+	font-size: 0.625rem;
+	border-top: 1px solid rgba(255, 255, 255, 0.25);
+}

@@ -1,0 +1,28 @@
+{
+	"name": "dannys-server",
+	"productName": "Danny's Server",
+	"version": "1.0.0",
+	"description": "Local Apache and MySQL controller with quick access to tools like localhost and phpMyAdmin, specifically designed for macOS.",
+	"main": "js/main.js",
+	"style": "css/style.scss",
+	"scripts": {
+		"start": "electron .",
+		"build": "electron-builder --mac"
+	},
+	"author": "Daniel BS",
+	"license": "Proprietary",
+	"build": {
+		"appId": "com.danny.server",
+		"productName": "Danny's Server",
+		"mac": {
+			"target": "dir",
+			"category": "public.app-category.developer-tools",
+			"icon": "img/icon.icns"
+		}
+	},
+	"devDependencies": {
+		"electron": "^27.0.0",
+		"electron-builder": "^26.0.12",
+		"electron-reload": "^2.0.0-alpha.1"
+	}
+}

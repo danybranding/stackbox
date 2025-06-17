@@ -1,0 +1,8 @@
+{
+	"workbench.colorCustomizations": {
+		"activityBar.background": "#3c8ce7",
+		"titleBar.activeBackground": "#3c8ce7",
+		"titleBar.activeForeground": "#fff"
+	},
+	"cSpell.words": ["danny", "dannys", "icns", "maximizable", "phpmyadmin", "pkill"]
+}
