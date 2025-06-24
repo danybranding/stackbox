@@ -1,4 +1,4 @@
-# Danny's Server
+# Danny's Server app
 
 Local control panel for macOS inspired by XAMPP, designed for developers who prefer a fast, straightforward, and elegant interface to manage services like **Apache** and **MySQL**, plus access to tools like **localhost**, **phpMyAdmin**, and other utilities.
 
@@ -68,7 +68,3 @@ npm run build
 ## 🧑‍💻 Author
 
 Lovingly developed by **Daniel BS** for personal use (shoutout to Miguelito 👊).
-
----
-
-> MIT License – Do whatever you want with this project! (just don’t sell it on the App Store 😉)
