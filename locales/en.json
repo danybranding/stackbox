@@ -1,0 +1,46 @@
+{
+	"labelServices": "Services",
+	"labelTools": "Tools",
+	"labelStatus": "Status",
+	"labelTime": "Time",
+	"labelOpen": "Open",
+	"labelClear": "Clear",
+
+	"titleStart": "Start",
+	"titleRestart": "Restart",
+	"titleStop": "Stop",
+
+	"statusStart": "Starting {{service}}…",
+	"statusStop": "Stopping {{service}}…",
+	"statusRestart": "Restarting {{service}}…",
+
+	"failStart": "Could not start {{service}}.",
+	"failStop": "Could not stop {{service}}.",
+	"failRestart": "Could not restart {{service}}.",
+
+	"toolOpenLocalhostAction": "Opening localhost in Brave…",
+	"toolOpenLocalhostFail": "Could not open localhost in Brave.",
+
+	"toolOpenPhpmyadminAction": "Opening phpMyAdmin in Brave…",
+	"toolOpenPhpmyadminFail": "Could not open phpMyAdmin in Brave.",
+
+	"toolOpenVsCodeAction": "Opening VS Code app…",
+	"toolOpenVsCodeFail": "Could not open VS Code app.",
+
+	"toolDeleteApachePidAction": "Deleting PID file…",
+	"toolDeleteApachePidFail": "Could not delete PID file.",
+
+	"statusChecking": "Checking the status of the services…",
+
+	"menuAbout": "About StackBox",
+	"menuOpenAccessLog": "Open access log",
+	"menuOpenApacheLog": "Open Apache error log",
+	"menuOpenMysqlLog": "Open MySQL error log",
+	"menuHide": "Hide StackBox",
+	"menuClose": "Close StackBox",
+	"menuQuit": "Quit StackBox",
+
+	"menuOpenAccessLogFail": "Could not open access log.",
+	"menuOpenApacheLogFail": "Could not open Apache error log.",
+	"menuOpenMysqlLogFail": "Could not open MySQL error log."
+}

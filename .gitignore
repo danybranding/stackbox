@@ -3,7 +3,6 @@
 **/package-lock.json
 
 # Configs and system files
-error.log
-.env.*
-*.local
-.DS_Store
+dist/
+**/.local
+**/.DS_Store

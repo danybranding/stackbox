@@ -185,7 +185,7 @@ hr {
 .tool[disabled] {
 	opacity: 0.9;
 	pointer-events: none;
-	color: #ccc;
+	color: #e3e3e3;
 }
 
 .tool:hover {

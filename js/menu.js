@@ -1,8 +1,44 @@
-const menuTemplate = [
-	{
-		label: "Danny's Server",
-		submenu: [{ role: 'about', label: "Acerca de Danny's Server" }, { type: 'separator' }, { role: 'hide', label: "Ocultar Danny's Server" }, { type: 'separator' }, { role: 'close', label: "Cerrar de Danny's Server" }, { role: 'quit', label: "Salir de Danny's Server" }]
-	}
-];
+/**
+ * Builds the app menu template with translated labels.
+ *
+ * @param {Function} t - Translation function from i18next.
+ *
+ * @returns {Array}
+ */
+const getMenuTemplate = (t) => {
+	return [
+		{
+			label: 'StackBox',
+			// prettier-ignore
+			submenu: [
+				{ role: 'about', label: t('menuAbout') },
+				{ type: 'separator' },
+				{label: t('menuOpenAccessLog'),
+					click: (_, focusedWindow) => {
+						focusedWindow.webContents.send('menu-open-access-log');
+					}
+				},
+				{
+				label: t('menuOpenApacheLog'),
+					click: (_, focusedWindow) => {
+						focusedWindow.webContents.send('menu-open-apache-log');
+					}
+				},
+				{
+					label: t('menuOpenMysqlLog'),
+					click: (_, focusedWindow) => {
+						focusedWindow.webContents.send('menu-open-mysql-log');
+					}
+				},
+				{ type: 'separator' },
+				{ role: 'hide', label: t('menuHide') },
+				{ type: 'separator' },
+				{ role: 'close', label: t('menuClose') },
+				{ role: 'quit', label: t('menuQuit') }
+			]
+		}
+	];
+};
 
-module.exports = { menuTemplate };
+// Export
+module.exports = { getMenuTemplate };

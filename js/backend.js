@@ -6,9 +6,9 @@ const { exec, spawn } = require('child_process');
  *
  * @param {Function} callback - Function to call with the status result.
  *
- * @return {void}
+ * @returns {void}
  */
-function listenStatus(callback) {
+const listenStatus = (callback) => {
 	const checks = {
 		apache: 'pgrep httpd',
 		mysql: 'pgrep mysqld'
@@ -24,30 +24,29 @@ function listenStatus(callback) {
 			if (--pending === 0) callback(status);
 		});
 	});
-}
+};
 
 /**
  * Executes a start or stop command and verifies the result with repeated checks.
  * Supports both standard command execution and custom function commands.
  *
- * @param {string} service - Name of the service (for logging purposes).
- * @param {string|Function} command - Command path or function to execute.
- * @param {string[]} params - Arguments to pass to the command (ignored if command is a function).
- * @param {string} check - Command to verify service state (e.g., pgrep).
- * @param {'start'|'stop'} action - The expected action ("start" or "stop").
- * @param {Function} onSuccess - Callback on successful verification.
- * @param {Function} onFail - Callback on failure after all attempts.
- * @param {number} [attempts=15] - Max verification attempts.
- * @param {number} [delay=1000] - Delay between attempts in milliseconds.
+ * @param {string}          service   - Name of the service (for logging purposes).
+ * @param {string|Function} command   - Command path or function to execute.
+ * @param {string[]}        params    - Arguments to pass to the command (ignored if command is a function).
+ * @param {string}          check     - Command to verify service state (e.g., pgrep).
+ * @param {string}          action    - The expected action ("start" or "stop").
+ * @param {Function}        onSuccess - Callback on successful verification.
+ * @param {Function}        onFail    - Callback on failure after all attempts.
+ * @param {number}          attempts  - Max verification attempts. Default 15.
+ * @param {number}          delay     - Delay between attempts in milliseconds. Default 1000.
  *
- * @return {void}
+ * @returns {void}
  */
-function executeCommand(service, command, params, check, action, onSuccess, onFail, attempts = 15, delay = 1000) {
+const executeCommand = (service, command, params, check, action, onSuccess, onFail, attempts = 15, delay = 1000) => {
 	let timeoutHandle;
 
-	// Si el comando es una función personalizada, ejecútala
 	if (typeof command === 'function') {
-		command(); // sin parámetros porque ya está preconfigurado
+		command();
 	} else {
 		const start = spawn(command, params, {
 			detached: true,
@@ -75,7 +74,7 @@ function executeCommand(service, command, params, check, action, onSuccess, onFa
 	};
 
 	timeoutHandle = setTimeout(checkService, delay);
-}
+};
 
 // Apache
 
@@ -83,68 +82,111 @@ function executeCommand(service, command, params, check, action, onSuccess, onFa
  * Starts the Apache service.
  *
  * @param {Function} onSuccess - Callback on success.
- * @param {Function} onFail - Callback on failure.
+ * @param {Function} onFail    - Callback on failure.
  *
- * @return {void}
+ * @returns {void}
  */
-function startApache(onSuccess, onFail) {
-	executeCommand(
-		'Apache', // nombre del servicio
-		'/opt/homebrew/opt/httpd/bin/httpd', // comando
-		['-k', 'start'], // parámetros
-		'pgrep httpd', // comando de verificación
-		'start', // acción
-		onSuccess, // callback éxito
-		onFail, // callback fallo
-		10, // intentos
-		1000 // delay entre intentos
-	);
-}
+const startApache = (onSuccess, onFail) => {
+	exec('/opt/homebrew/opt/httpd/bin/httpd -k start', (error, stdout, stderr) => {
+		if (error) {
+			onFail(stderr || error.message || 'Unknown error');
+			return;
+		}
+
+		const delay = 1000;
+		let attempts = 10;
+		let timeoutHandle;
+
+		const checkStatus = () => {
+			exec('pgrep httpd', (checkError) => {
+				if (!checkError) {
+					if (timeoutHandle) clearTimeout(timeoutHandle);
+					return onSuccess();
+				}
+
+				// Check service
+				if (--attempts > 0) {
+					timeoutHandle = setTimeout(checkStatus, delay);
+				}
+				// Stop checking
+				else {
+					if (timeoutHandle) clearTimeout(timeoutHandle);
+					onFail('Apache did not start after many retries.');
+				}
+			});
+		};
+
+		timeoutHandle = setTimeout(checkStatus, delay);
+	});
+};
 
 /**
  * Stops the Apache service by manually killing all httpd processes.
  *
  * @param {Function} onSuccess - Callback on success.
- * @param {Function} onFail - Callback on failure.
+ * @param {Function} onFail    - Callback on failure.
  *
- * @return {void}
+ * @returns {void}
  */
-function stopApache(onSuccess, onFail) {
-	executeCommand(
-		'Apache',
-		() => {
-			exec('pgrep httpd', (err, stdout) => {
-				if (err || !stdout) return;
+const stopApache = (onSuccess, onFail) => {
+	exec('/opt/homebrew/opt/httpd/bin/httpd -k stop', (error, stdout, stderr) => {
+		if (error) {
+			onFail(stderr || error.message || 'Unknown error');
+			return;
+		}
 
-				const pids = stdout.trim().split('\n');
-				const kill = spawn('kill', ['-9', ...pids], { detached: true, stdio: 'ignore' });
-				kill.unref();
+		const delay = 1000;
+		let attempts = 10;
+		let timeoutHandle;
+
+		const checkStatus = () => {
+			exec('pgrep httpd', (checkError) => {
+				if (checkError) {
+					if (timeoutHandle) clearTimeout(timeoutHandle);
+					return onSuccess();
+				}
+
+				// Check service
+				if (--attempts > 0) {
+					timeoutHandle = setTimeout(checkStatus, delay);
+				}
+				// Stop checking
+				else {
+					if (timeoutHandle) clearTimeout(timeoutHandle);
+					// Try to kill service
+					exec('pkill -9 httpd', (pkillError, stdout, pkillStderr) => {
+						if (pkillError) {
+							onFail(pkillStderr || pkillError.message || 'Unknown error');
+							return;
+						}
+						onSuccess();
+					});
+				}
 			});
-		},
-		[], // params no se usan si command es función
-		'pgrep httpd',
-		'stop',
-		onSuccess,
-		onFail,
-		10,
-		1000
-	);
-}
+		};
+
+		timeoutHandle = setTimeout(checkStatus, delay);
+	});
+};
 
 /**
  * Restarts the Apache service.
  *
  * @param {Function} onSuccess - Callback on success.
- * @param {Function} onFail - Callback on failure.
+ * @param {Function} onFail    - Callback on failure.
  *
- * @return {void}
+ * @returns {void}
  */
-function restartApache(onSuccess, onFail) {
-	stopApache((res) => {
-		if (!res.success) return onFail(res);
-		startApache(onSuccess, onFail);
-	}, onFail);
-}
+const restartApache = (onSuccess, onFail) => {
+	stopApache(
+		() => {
+			startApache(onSuccess, onFail);
+		},
+		(error) => {
+			onFail(error);
+		}
+	);
+};
 
 // MySQL
 
@@ -152,23 +194,42 @@ function restartApache(onSuccess, onFail) {
  * Starts the MySQL service.
  *
  * @param {Function} onSuccess - Callback on success.
- * @param {Function} onFail - Callback on failure.
+ * @param {Function} onFail    - Callback on failure.
  *
- * @return {void}
+ * @returns {void}
  */
-function startMySQL(onSuccess, onFail) {
-	executeCommand(
-		'MySQL', // nombre del servicio
-		'/opt/homebrew/opt/mysql/bin/mysql.server', // comando
-		['start'], // parámetros
-		'pgrep mysqld', // comando de verificación
-		'start', // acción
-		onSuccess, // callback éxito
-		onFail, // callback fallo
-		15, // intentos
-		1000 // delay entre intentos
-	);
-}
+const startMySQL = (onSuccess, onFail) => {
+	const start = spawn('/opt/homebrew/opt/mysql/bin/mysql.server', ['start'], {
+		detached: true,
+		stdio: 'ignore'
+	});
+	start.unref();
+
+	const delay = 1000;
+	let attempts = 10;
+	let timeoutHandle;
+
+	const checkStatus = () => {
+		exec('pgrep mysqld', (checkError) => {
+			if (!checkError) {
+				if (timeoutHandle) clearTimeout(timeoutHandle);
+				return onSuccess();
+			}
+
+			// Check service
+			if (--attempts > 0) {
+				timeoutHandle = setTimeout(checkStatus, delay);
+			}
+			// Stop checking
+			else {
+				if (timeoutHandle) clearTimeout(timeoutHandle);
+				onFail('MySQL did not start after many retries.');
+			}
+		});
+	};
+
+	timeoutHandle = setTimeout(checkStatus, delay);
+};
 
 /**
  * Stops the MySQL service using pkill.
@@ -176,123 +237,181 @@ function startMySQL(onSuccess, onFail) {
  * @param {Function} onSuccess - Callback on success.
  * @param {Function} onFail - Callback on failure.
  *
- * @return {void}
+ * @returns {void}
  */
-function stopMySQL(onSuccess, onFail) {
-	executeCommand(
-		'MySQL', // nombre del servicio
-		'pkill', // comando
-		['-f', 'mysqld'], // parámetros
-		'pgrep mysqld', // comando de verificación
-		'stop', // acción
-		onSuccess, // callback éxito
-		onFail, // callback fallo
-		15, // intentos
-		1000 // delay entre intentos
-	);
-}
+const stopMySQL = (onSuccess, onFail) => {
+	const stop = spawn('/opt/homebrew/opt/mysql/bin/mysql.server', ['stop'], {
+		detached: true,
+		stdio: 'ignore'
+	});
+	stop.unref();
+
+	const delay = 1000;
+	let attempts = 10;
+	let timeoutHandle;
+
+	const checkStatus = () => {
+		exec('pgrep mysqld', (checkError) => {
+			if (checkError) {
+				if (timeoutHandle) clearTimeout(timeoutHandle);
+				return onSuccess();
+			}
+
+			// Check service
+			if (--attempts > 0) {
+				timeoutHandle = setTimeout(checkStatus, delay);
+			}
+			// Stop checking
+			else {
+				if (timeoutHandle) clearTimeout(timeoutHandle);
+				// Try to kill service
+				exec('pkill -9 mysqld', (pkillError, stdout, pkillStderr) => {
+					if (pkillError) {
+						onFail(pkillStderr || pkillError.message || 'Unknown error');
+						return;
+					}
+					onSuccess();
+				});
+			}
+		});
+	};
+
+	timeoutHandle = setTimeout(checkStatus, delay);
+};
 
 /**
  * Restarts the MySQL service.
  *
  * @param {Function} onSuccess - Callback on success.
- * @param {Function} onFail - Callback on failure.
+ * @param {Function} onFail    - Callback on failure.
  *
- * @return {void}
+ * @returns {void}
  */
-function restartMySQL(onSuccess, onFail) {
-	stopMySQL((res) => {
-		if (!res.success) return onFail(res);
-		startMySQL(onSuccess, onFail);
-	}, onFail);
-}
+const restartMySQL = (onSuccess, onFail) => {
+	stopMySQL(
+		() => {
+			startMySQL(onSuccess, onFail);
+		},
+		(error) => {
+			onFail(error);
+		}
+	);
+};
 
 // TTyD
 
 /**
  * Stops the TTyD service using pkill.
+ *
+ * @returns {void}
  */
-function stopTTyD(onSuccess, onFail) {
-	executeCommand(
-		'TTyD', // nombre del servicio
-		'pkill', // comando
-		['-f', 'ttyd'], // parámetros
-		'pgrep ttyd', // comando de verificación
-		'stop', // acción
-		onSuccess, // callback éxito
-		onFail, // callback fallo
-		5, // intentos
-		1000 // delay entre intentos
-	);
-}
+const stopTTyD = () => {
+	exec('pkill -f ttyd');
+};
 
 // Tools
+
+/**
+ * Opens a given file path in TextEdit.
+ *
+ * @param {string}   filePath  - Defines the absolute path to the file.
+ * @param {Function} onSuccess - Callback on success.
+ * @param {Function} onFail    - Callback on failure.
+ *
+ * @returns {void}
+ */
+const openFileInTextEdit = (filePath, onSuccess, onFail) => {
+	exec(`open -a TextEdit "${filePath}"`, (error, stdout, stderr) => {
+		if (error) {
+			onFail(stderr || error.message || 'Unknown error');
+			return;
+		}
+		onSuccess();
+	});
+};
 
 /**
  * Opens the Brave browser at https://localhost/dashboard/.
  *
  * @param {Function} onSuccess - Callback on success.
- * @param {Function} onFail - Callback on failure.
+ * @param {Function} onFail    - Callback on failure.
  *
- * @return {void}
+ * @returns {void}
  */
-function openLocalhost(onSuccess, onFail) {
-	exec(`open -a "Brave Browser" "https://localhost/dashboard/"`, (error) => {
-		if (error) return onFail(error);
+const openLocalhost = (onSuccess, onFail) => {
+	exec(`open -a "Brave Browser" "https://localhost/dashboard/"`, (error, stdout, stderr) => {
+		if (error) {
+			onFail(stderr || error.message || 'Unknown error');
+			return;
+		}
 		onSuccess();
 	});
-}
+};
 
 /**
  * Opens phpMyAdmin in Brave at https://localhost/phpmyadmin/.
  *
  * @param {Function} onSuccess - Called on success.
- * @param {Function} onFail - Called on failure.
+ * @param {Function} onFail    - Called on failure.
  *
- * @return {void}
+ * @returns {void}
  */
-function openPhpMyAdmin(onSuccess, onFail) {
-	exec(`open -a "Brave Browser" "https://localhost/phpmyadmin/"`, (error) => {
-		if (error) return onFail(error);
+const openPhpMyAdmin = (onSuccess, onFail) => {
+	exec(`open -a "Brave Browser" "https://localhost/phpmyadmin/"`, (error, stdout, stderr) => {
+		if (error) {
+			onFail(stderr || error.message || 'Unknown error');
+			return;
+		}
 		onSuccess();
 	});
-}
+};
 
 /**
- * Opens the Notion desktop application.
+ * Opens the Visual Studio Code application.
  *
  * @param {Function} onSuccess - Called on successful execution.
- * @param {Function} onFail - Called with an error message if execution fails.
+ * @param {Function} onFail    - Called with an error message if execution fails.
  *
- * @return {void}
+ * @returns {void}
  */
-function openNotionApp(onSuccess, onFail) {
-	exec(`open -a "Notion"`, (error) => {
-		if (error) return onFail(error);
+const openVSCode = (onSuccess, onFail) => {
+	exec(`open -a "Visual Studio Code"`, (error, stdout, stderr) => {
+		if (error) {
+			return onFail(stderr || error.message || 'Unknown error');
+		}
 		onSuccess();
 	});
-}
+};
 
 /**
  * Deletes the Apache PID file located at /opt/homebrew/var/run/httpd/httpd.pid
  * and logs the operation result.
  *
  * @param {Function} onSuccess - Callback on success.
- * @param {Function} onFail - Callback on failure.
- * @return {void}
+ * @param {Function} onFail    - Callback on failure.
+ *
+ * @returns {void}
  */
-function deleteApachePid(onSuccess, onFail) {
+const deleteApachePid = (onSuccess, onFail) => {
 	const pidFile = '/opt/homebrew/var/run/httpd/httpd.pid';
-	exec(`cat ${pidFile}`, (err) => {
-		if (err) return onFail(`No PID file found at ${pidFile}`);
-		exec(`rm -f ${pidFile}`, (rmErr) => {
-			if (rmErr) return onFail(rmErr);
+
+	exec(`cat ${pidFile}`, (error) => {
+		if (error) {
+			onSuccess();
+			return;
+		}
+
+		exec(`rm -f ${pidFile}`, (rmError, stdout, rmStderr) => {
+			if (rmError) {
+				onFail(rmStderr || rmError.message || 'Unknown error');
+				return;
+			}
 			onSuccess();
 		});
 	});
-}
+};
 
-// Exported functions
+// Export
 module.exports = {
 	listenStatus,
 	startApache,
@@ -302,8 +421,9 @@ module.exports = {
 	stopMySQL,
 	restartMySQL,
 	stopTTyD,
+	openFileInTextEdit,
 	openLocalhost,
 	openPhpMyAdmin,
-	openNotionApp,
+	openVSCode,
 	deleteApachePid
 };

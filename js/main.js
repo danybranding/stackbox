@@ -1,9 +1,12 @@
 const path = require('path');
-const { listenStatus, startApache, stopApache, restartApache, startMySQL, stopMySQL, restartMySQL, stopTTyD, openLocalhost, openPhpMyAdmin, openNotionApp, deleteApachePid } = require('./backend');
-const { menuTemplate } = require('./menu');
+const i18next = require('i18next');
+const Backend = require('i18next-fs-backend');
+const { listenStatus, startApache, stopApache, restartApache, startMySQL, stopMySQL, restartMySQL, stopTTyD, openFileInTextEdit, openLocalhost, openPhpMyAdmin, openVSCode, deleteApachePid } = require('./backend');
+const { getMenuTemplate } = require('./menu');
 const { app, BrowserWindow, ipcMain, Menu } = require('electron');
 
-globalThis.preventClose = true;
+let mainWindow;
+let preventClose = true;
 
 // Hot-reload during development
 if (!app.isPackaged) {
@@ -13,9 +16,33 @@ if (!app.isPackaged) {
 }
 
 /**
- * Creates the main application window with custom styling and settings.
+ * Initializes i18next in the main process with filesystem backend.
+ *
+ * @param {string} locale - System locale code.
+ *
+ * @returns {void}
  */
-function createWindow() {
+const initI18n = async (locale) => {
+	const lang = locale.split('-')[0] || 'en';
+
+	await i18next.use(Backend).init({
+		lng: lang,
+		fallbackLng: 'en',
+		backend: {
+			loadPath: path.join(__dirname, '..', 'locales', '{{lng}}.json')
+		},
+		interpolation: {
+			escapeValue: false
+		}
+	});
+};
+
+/**
+ * Creates the main application window with custom styling and settings.
+ *
+ * @returns {BrowserWindow}
+ */
+const createWindow = () => {
 	const win = new BrowserWindow({
 		width: 550,
 		height: 370,
@@ -35,12 +62,9 @@ function createWindow() {
 	win.loadFile(path.join(__dirname, '..', 'html', 'index.html'));
 
 	win.on('close', (event) => {
-		if (globalThis.preventClose) {
+		if (preventClose) {
 			event.preventDefault();
-			stopAllServices(() => {
-				globalThis.preventClose = false;
-				win.close();
-			});
+			stopAllServices();
 		}
 	});
 
@@ -51,15 +75,19 @@ function createWindow() {
 	if (!app.isPackaged && win && !win.isDestroyed()) {
 		win.webContents.openDevTools();
 	}
-}
+
+	return win;
+};
 
 /**
  * Starts a background interval to monitor the status of all services
  * and emits updates to the renderer process via IPC.
  *
  * @param {BrowserWindow} window - The Electron window to send updates to.
+ *
+ * @returns {void}
  */
-function startStatusMonitor(window) {
+const startStatusMonitor = (window) => {
 	// Emit initial status once
 	listenStatus((status) => {
 		if (window && !window.isDestroyed()) {
@@ -75,64 +103,94 @@ function startStatusMonitor(window) {
 			}
 		});
 	}, 60000);
-}
+};
 
 /**
  * Stops all running services before quitting or closing the app.
  *
- * @param {Function} callback - Called after all services are stopped.
+ * @returns {void}
  */
-function stopAllServices(callback) {
-	let pending = 3;
+const stopAllServices = () => {
+	stopTTyD();
+	if (mainWindow && typeof mainWindow.isDestroyed === 'function' && !mainWindow.isDestroyed()) {
+		mainWindow.webContents.send('stop-all-services', ['apache', 'mysql']);
+	}
+};
 
-	const done = () => {
-		pending--;
-		if (pending === 0 && typeof callback === 'function') {
-			callback();
-		}
-	};
+// Handles app ready events
+app.whenReady().then(async () => {
+	const locale = app.getLocale();
+	await initI18n(locale);
 
-	stopApache(done, done);
-	stopMySQL(done, done);
-	stopTTyD(done, done);
-}
+	mainWindow = createWindow();
+	Menu.setApplicationMenu(Menu.buildFromTemplate(getMenuTemplate(i18next.t)));
 
-// Create window when app is ready
-app.whenReady().then(() => {
-	createWindow();
-	Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
 	app.on('activate', function () {
-		if (BrowserWindow.getAllWindows().length === 0) createWindow();
+		if (BrowserWindow.getAllWindows().length === 0) {
+			mainWindow = createWindow();
+		}
 	});
+
 	app.on('before-quit', (event) => {
-		if (globalThis.preventClose) {
+		if (preventClose) {
 			event.preventDefault();
-			stopAllServices(() => {
-				globalThis.preventClose = false;
-				app.quit();
-			});
+			stopAllServices();
 		}
 	});
 });
 
-// Quit app when all windows are closed (except on macOS)
-app.on('window-all-closed', function () {
-	if (process.platform !== 'darwin') app.quit();
+// IPC handler for close app
+ipcMain.on('close-app', () => {
+	preventClose = false;
+	mainWindow.close();
 });
+
+// IPC handler for translations
+ipcMain.handle('translate', (_event, args) => {
+	const { key, params } = args;
+	return i18next.t(key, params || {});
+});
+
+// IPC handlers for logs
+ipcMain.handle(
+	'open-access-log',
+	() =>
+		new Promise((resolve, reject) => {
+			openFileInTextEdit('/Users/danny/Servidor/config/logs/access.log', resolve, reject);
+		})
+);
+ipcMain.handle(
+	'open-apache-log',
+	() =>
+		new Promise((resolve, reject) => {
+			openFileInTextEdit('/Users/danny/Servidor/config/logs/apache_error.log', resolve, reject);
+		})
+);
+ipcMain.handle(
+	'open-mysql-log',
+	() =>
+		new Promise((resolve, reject) => {
+			openFileInTextEdit('/Users/danny/Servidor/config/logs/mysql_error.log', resolve, reject);
+		})
+);
 
 // IPC handlers for Apache
 ipcMain.handle(
 	'start-apache',
 	() =>
 		new Promise((resolve, reject) => {
-			startApache(resolve, reject);
+			startApache(resolve, (errorMessage) => {
+				reject(new Error(errorMessage));
+			});
 		})
 );
 ipcMain.handle(
 	'stop-apache',
 	() =>
 		new Promise((resolve, reject) => {
-			stopApache(resolve, reject);
+			stopApache(resolve, (errorMessage) => {
+				reject(new Error(errorMessage));
+			});
 		})
 );
 ipcMain.handle(
@@ -182,10 +240,10 @@ ipcMain.handle(
 		})
 );
 ipcMain.handle(
-	'open-notion',
+	'open-vs-code',
 	() =>
 		new Promise((resolve, reject) => {
-			openNotionApp(resolve, reject);
+			openVSCode(resolve, reject);
 		})
 );
 ipcMain.handle(

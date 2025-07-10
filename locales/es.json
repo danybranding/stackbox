@@ -1,0 +1,46 @@
+{
+	"labelServices": "Servicios",
+	"labelTools": "Herramientas",
+	"labelStatus": "Estado",
+	"labelTime": "Tiempo",
+	"labelOpen": "Abrir",
+	"labelClear": "Borrar",
+
+	"titleStart": "Iniciar",
+	"titleRestart": "Reiniciar",
+	"titleStop": "Detener",
+
+	"statusStart": "Iniciando {{service}}…",
+	"statusStop": "Deteniendo {{service}}…",
+	"statusRestart": "Reiniciando {{service}}…",
+
+	"failStart": "No fue posible iniciar {{service}}.",
+	"failStop": "No fue posible detener {{service}}.",
+	"failRestart": "No fue posible reiniciar {{service}}.",
+
+	"toolOpenLocalhostAction": "Abriendo localhost en Brave…",
+	"toolOpenLocalhostFail": "No se pudo abrir localhost en Brave.",
+
+	"toolOpenPhpmyadminAction": "Abriendo phpMyAdmin en Brave…",
+	"toolOpenPhpmyadminFail": "No se pudo abrir phpMyAdmin en Brave.",
+
+	"toolOpenVsCodeAction": "Abriendo la app VS Code…",
+	"toolOpenVsCodeFail": "No se pudo abrir la app VS Code.",
+
+	"toolDeleteApachePidAction": "Eliminando archivo PID…",
+	"toolDeleteApachePidFail": "No se pudo eliminar el archivo PID.",
+
+	"statusChecking": "Revisando el estado de los servicios…",
+
+	"menuAbout": "Acerca de StackBox",
+	"menuOpenAccessLog": "Abrir log de accesos",
+	"menuOpenApacheLog": "Abrir log de errores de Apache",
+	"menuOpenMysqlLog": "Abrir log de errores de MySQL",
+	"menuHide": "Ocultar StackBox",
+	"menuClose": "Cerrar StackBox",
+	"menuQuit": "Salir de StackBox",
+
+	"menuOpenAccessLogFail": "No fue posible abrir el log de accesos.",
+	"menuOpenApacheLogFail": "No fue posible abrir el log de errores de Apache.",
+	"menuOpenMysqlLogFail": "No fue posible abrir el log de errores de MySQL."
+}
