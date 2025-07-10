@@ -1,37 +1,21 @@
-PRIVATE LICENSE – DANNY'S SERVER APP
+MIT License
 
-License Type
-This software is licensed for private use only. It is proprietary software, not open source, and is not sold.
+Copyright (c) 2025 Danny BS
 
-Rights Granted
-Under this license, you are permitted to:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-- Use the software privately for personal or internal development purposes.
-- Modify the code to adapt it to your own workflows or environment.
-- Provide feedback or suggestions to the author.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-Restrictions
-You are not permitted to:
-
-- Distribute the software publicly, including publishing it on repositories, marketplaces, or forums.
-- Sell, sublicense, or include it in commercial products or services.
-- Use it as part of any paid service, software-as-a-service (SaaS), or consulting offering.
-- Rebrand, claim authorship, or remove copyright notices.
-
-Commercial Use
-If you wish to use this software:
-
-- In client or customer projects,
-- Within a team or company setting,
-- Or as part of a product or service that generates revenue,
-
-you must obtain a commercial license.
-
-Please contact the author at:
-Email: davabuu@gmail.com
-
-Author
-This software was created by Daniel BS.
-
-Disclaimer
-This software is provided "as is" without warranties of any kind, either express or implied. Use at your own risk.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
