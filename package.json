@@ -7,7 +7,7 @@
 		"type": "git",
 		"url": "https://github.com/danybranding/stackbox"
 	},
-	"author": "Daniel BS",
+	"author": "Danny BS",
 	"license": "MIT",
 	"main": "js/main.js",
 	"style": "css/style.scss",
