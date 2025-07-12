@@ -1,7 +1,7 @@
 {
 	"name": "stackbox",
 	"productName": "StackBox",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "Local Apache and MySQL controller with quick access to tools like localhost and phpMyAdmin, specifically designed for macOS.",
 	"repository": {
 		"type": "git",

@@ -163,14 +163,14 @@ ipcMain.handle(
 	'open-apache-log',
 	() =>
 		new Promise((resolve, reject) => {
-			openFileInTextEdit('/Users/danny/Servidor/config/logs/apache_error.log', resolve, reject);
+			openFileInTextEdit('/Users/danny/Servidor/config/logs/apache.log', resolve, reject);
 		})
 );
 ipcMain.handle(
 	'open-mysql-log',
 	() =>
 		new Promise((resolve, reject) => {
-			openFileInTextEdit('/Users/danny/Servidor/config/logs/mysql_error.log', resolve, reject);
+			openFileInTextEdit('/Users/danny/Servidor/config/logs/mysql.log', resolve, reject);
 		})
 );
 

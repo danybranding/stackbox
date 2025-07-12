@@ -33,14 +33,14 @@
 	"statusChecking": "Checking the status of the services…",
 
 	"menuAbout": "About StackBox",
-	"menuOpenAccessLog": "Open access log",
-	"menuOpenApacheLog": "Open Apache error log",
-	"menuOpenMysqlLog": "Open MySQL error log",
+	"menuOpenAccessLog": "Open Access log",
+	"menuOpenApacheLog": "Open Apache log",
+	"menuOpenMysqlLog": "Open MySQL log",
 	"menuHide": "Hide StackBox",
 	"menuClose": "Close StackBox",
 	"menuQuit": "Quit StackBox",
 
-	"menuOpenAccessLogFail": "Could not open access log.",
-	"menuOpenApacheLogFail": "Could not open Apache error log.",
-	"menuOpenMysqlLogFail": "Could not open MySQL error log."
+	"menuOpenAccessLogFail": "Could not open Access log.",
+	"menuOpenApacheLogFail": "Could not open Apache log.",
+	"menuOpenMysqlLogFail": "Could not open MySQL log."
 }
