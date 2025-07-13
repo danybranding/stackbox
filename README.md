@@ -1,10 +1,9 @@
 # StackBox
 
-![version](https://img.shields.io/badge/version-1.1.0-blue)
-![platform](https://img.shields.io/badge/platform-macOS-lightgrey)
-![license](https://img.shields.io/badge/license-MIT-green)
-![Open Source](https://img.shields.io/badge/Open%20Source-GitHub-brightgreen)
-![GitHub stars](https://img.shields.io/github/stars/danybranding/stackbox?style=social)
+![version](https://img.shields.io/badge/version-1.1.0-blue?style=for-the-badge)
+![platform](https://img.shields.io/badge/platform-macOS-lightgrey?style=for-the-badge)
+![license](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
+![Open Source](https://img.shields.io/badge/Open%20Source-GitHub-brightgreen?style=for-the-badge)
 
 ---
 
@@ -162,7 +161,6 @@ Please keep the code style consistent and follow the existing patterns.
 
 If StackBox helps your local workflow, please **star this repo** on GitHub — it keeps the project visible and alive!
 
-If you’d like to support development directly, you can also **donate via PayPal**:  
-[![Donate](https://img.shields.io/badge/Buy%20me%20a%20coffee-blue?logo=PayPal&logoColor=white&style=flat)](https://paypal.me/danybranding)
+[![BuyMeACoffee](https://img.shields.io/badge/enjoying_stackbox%3F-fuel_it_with_a_coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=white&labelColor=101010)](https://coff.ee/danybranding)
 
 **Happy local development!**
