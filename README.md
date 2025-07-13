@@ -1,6 +1,6 @@
 # StackBox
 
-![version](https://img.shields.io/badge/version-1.1.0-blue?style=for-the-badge)
+![version](https://img.shields.io/badge/version-1.1.1-blue?style=for-the-badge)
 ![platform](https://img.shields.io/badge/platform-macOS-lightgrey?style=for-the-badge)
 ![license](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
 ![Open Source](https://img.shields.io/badge/Open%20Source-GitHub-brightgreen?style=for-the-badge)
