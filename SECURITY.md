@@ -4,9 +4,9 @@
 
 If you believe you have found a security vulnerability in StackBox, please follow these steps:
 
-### 1. **Do not open public issues.**
+### 1. Do not open public issues.
 
-Report it privately to our maintainers by emailing: **hola@daniel-benitez.dev**
+Report it privately to our maintainers by emailing: hola@daniel-benitez.com
 
 ### 2. Include as much information as possible:
 
