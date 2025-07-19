@@ -1,19 +1,35 @@
+<div align="center">
+  <a href="https://frakto.dev/">
+    <img src="./screenshots/main-window.png" alt="Main window">
+  </a>
+  <br>
+  <img src="https://img.shields.io/badge/version-1.1.1-blue.svg" alt="Version">
+  <img src="https://img.shields.io/badge/npm-%5E10.0.0-blue.svg?logo=npm&logoColor=white" alt="npm">
+  <img src="https://img.shields.io/badge/Electron-%5E37.0.0-blue.svg?logo=electron&logoColor=white" alt="Electron">
+  <img src="https://img.shields.io/badge/License-MIT-brightgreen.svg" alt="License">
+  <img src="https://img.shields.io/badge/build-passing-brightgreen.svg" alt="Build Status">
+  <img src="https://img.shields.io/badge/Prs-welcome-brightgreen.svg" alt="Contributions welcome">
+</div>
+
 # StackBox
-
-![version](https://img.shields.io/badge/version-1.1.1-blue?style=for-the-badge)
-![platform](https://img.shields.io/badge/platform-macOS-lightgrey?style=for-the-badge)
-![license](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
-![Open Source](https://img.shields.io/badge/Open%20Source-GitHub-brightgreen?style=for-the-badge)
-
----
-
-![StackBox Screenshot](./screenshots/main-window.png)
 
 Local control panel for macOS inspired by XAMPP, designed for developers who prefer a fast, straightforward, and elegant interface to manage services like **Apache** and **MySQL**, plus access to tools like **localhost**, **phpMyAdmin**, and other utilities.
 
 ---
 
-## 🧰 Features
+## Table of Contents
+
+- [Features](#features)
+- [Requirements](#requirements)
+- [Recommended Apache Config](#recommended-apache-config)
+- [Logs](#logs)
+- [Language support](#language-support)
+- [Install & Run](#install--run)
+- [Contributing](#contributing)
+- [License](#license)
+- [Support this project](#support-this-project)
+
+## Features
 
 - Start, stop, and restart local Apache and MySQL services.
 - Quick access to:
@@ -29,7 +45,7 @@ Local control panel for macOS inspired by XAMPP, designed for developers who pre
 
 ---
 
-## 🛠 Requirements
+## Requirements
 
 - macOS 12+
 - Node.js 18+
@@ -39,7 +55,7 @@ Local control panel for macOS inspired by XAMPP, designed for developers who pre
 
 ---
 
-## ⚙️ Recommended Apache Config
+## Recommended Apache Config
 
 To run Apache on ports `80` and `443` **without requiring sudo each time**, ensure your `httpd.conf` includes:
 
@@ -59,7 +75,7 @@ Adjust `User` and `Group` to match your local user.
 
 ---
 
-## 📂 Logs
+## Logs
 
 Access log:
 
@@ -81,7 +97,7 @@ MySQL error log:
 
 ---
 
-### 📂 Change Apache and MySQL log paths
+### Change Apache and MySQL log paths
 
 To change Apache logs, edit `httpd.conf`:
 
@@ -108,7 +124,7 @@ You can adjust these log paths in the IPC handlers located in your `js/main.js` 
 
 ---
 
-## 🌐 Language support
+## Language support
 
 StackBox auto-detects your system language and switches to `en` (English) or `es` (Spanish) automatically.
 
@@ -119,7 +135,7 @@ On startup, if the detected language matches your file, it will be used automati
 
 ---
 
-## 🚀 Install & Run
+## Install & Run
 
 1. Clone the repository:
 
@@ -146,18 +162,16 @@ On startup, if the detected language matches your file, it will be used automati
    npm run build
    ```
 
----
-
-## 🔑 License
-
-This project is licensed under the MIT License.
-
-## 🤝 Contributing
+## Contributing
 
 Open PRs and issues are welcome.  
 Please keep the code style consistent and follow the existing patterns.
 
-## ⭐️ Support this project
+## License
+
+MIT License — Copyright © 2025 [DΔNNY BS](https://github.com/danybranding/)
+
+## Support this project
 
 If StackBox helps your local workflow, please **star this repo** on GitHub — it keeps the project visible and alive!
 
