@@ -4,5 +4,19 @@
 		"titleBar.activeBackground": "#3c8ce7",
 		"titleBar.activeForeground": "#fff"
 	},
-	"cSpell.words": ["benitez", "daniel", "danny", "icns", "maximizable", "mysqld", "osascript", "pgrep", "phpmyadmin", "pkill", "stackbox", "ttyd"]
+	"cSpell.words": [
+		"benitez",
+		"daniel",
+		"danny",
+		"danybranding",
+		"icns",
+		"maximizable",
+		"mysqld",
+		"osascript",
+		"pgrep",
+		"phpmyadmin",
+		"pkill",
+		"stackbox",
+		"ttyd"
+	]
 }
