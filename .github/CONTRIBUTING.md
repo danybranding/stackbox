@@ -1,71 +1,54 @@
 # Contributing to Stackbox
 
+First off, thank you for considering contributing to this project — your input helps make it better for everyone!
+
+**StackBox** is a local Apache and MySQL controller with quick access to tools like localhost and phpMyAdmin, specifically designed for macOS.
+
 ## Philosophy
 
-This project is a streamlined local development environment for macOS, offering fast control over Apache and MySQL, with easy access to tools like `localhost` and `phpMyAdmin`.  
 Every contribution must uphold consistency, simplicity, and technical clarity across the codebase.  
 This document defines the **technical, syntactical, and stylistic standards** required to ensure long-term maintainability and developer trust.
 
 ---
 
-## Emoji Policy
+## Contributing
+
+We welcome community contributions. Whether it's fixing a typo or suggesting a whole new direction, you're invited to help improve this project.
+
+### Bug Reports
+
+If you find an issue with the categorization, a missing property, or any inconsistency, please open a **Bug Report**. Clear examples and context will help us solve it faster.
+
+### Feature Requests
+
+Got an idea to enhance the project? We'd love to hear it. Open a **Feature Request** with a short explanation of your proposal and how it could improve developer experience.
+
+### Pull Requests
+
+Before submitting a pull request, make sure your changes are clear, purposeful, and align with the structure of the project. Always reference the related issue (if any) and explain your reasoning in the PR description. Let’s keep it clean and consistent.
+
+---
+
+## Guidelines
+
+### Emoji Policy
 
 Emojis are strictly prohibited in all code comments, docblocks, commit messages, and documentation.  
 They may not be used under any circumstance. Code should remain clean, professional, and timeless.
 
----
-
-## Language Policy
+### Language Policy
 
 All code, comments, docblocks, commit messages, and documentation must be written in English at all times.  
 No exceptions are allowed. Consistency in language ensures clarity and global accessibility.
 
----
-
-## Structural Consistency Policy
+### Structural Consistency Policy
 
 All functions, classes, objects, and related structures must follow a consistent and uniform pattern throughout the codebase.
 Do not introduce inconsistencies in naming, formatting, or element ordering between different code fragments or versions.
 
 ---
 
-## Commit Message Policy
-
-All commit messages must follow the lowercase format:
-
-```
-type: short description
-```
-
-Multiple types can be combined in a single commit message, separated by commas:
-
-```
-release: v1.0.0, fix: corrected button alignment, feat: added dark mode toggle
-```
-
-Do **not** use capital letters, parentheses, or colons within the type (e.g., avoid `Feat(...)` or `feat():`).
-
-### Allowed Types
-
-| Type     | Purpose                                             |
-| -------- | --------------------------------------------------- |
-| feat     | New feature                                         |
-| fix      | Bug fix                                             |
-| chore    | General maintenance or routine tasks                |
-| docs     | Documentation changes (README, Wiki, comments)      |
-| style    | Code formatting, linting, and style changes         |
-| refactor | Code restructuring with no functional changes       |
-| test     | Unit tests, integration tests, mock setups          |
-| perf     | Performance improvements                            |
-| build    | Changes to build system, dependencies, or packaging |
-| ci       | Continuous integration scripts and configuration    |
-| revert   | Revert a previous commit                            |
-| wip      | Work in progress (non-standard, use with caution)   |
-| release  | Reserved for large commits tied to version releases |
-
----
-
-## Syntax Rules
+## Syntax guidelines
 
 ### JavaScript (Vanilla JS / ES6+)
 
@@ -84,151 +67,7 @@ Do **not** use capital letters, parentheses, or colons within the type (e.g., av
 
 ---
 
-## Master Property Order
-
-All CSS property declarations must follow the standardized order defined below. This ensures consistency and readability across the entire codebase.
-
-Apply the following rules when sorting properties:
-
-- If the property includes a **vendor prefix** (`-webkit-`, `-moz-`, `-o-`), ignore the prefix and sort according to the base property name.
-
-### 1. Layout
-
-- position
-- z-index
-- top / right / bottom / left (or logical equivalents)
-- inset
-- display
-- float
-- clear
-- aspect-ratio
-- vertical-align
-- box-sizing
-- width / height
-- min-width / min-height
-- max-width / max-height
-- margin / padding
-- overflow / overflow-x / overflow-y
-- overscroll-behavior / overscroll-behavior-x / overscroll-behavior-y
-- scroll-margin
-- scroll-padding
-- table-layout
-- border-collapse
-- border-spacing
-- caption-side
-- flex
-- flex-basis
-- flex-direction
-- flex-wrap
-- flex-grow
-- flex-shrink
-- order
-- grid-template-columns
-- grid-template-rows
-- grid-auto-flow
-- grid-auto-columns
-- grid-auto-rows
-- grid-column
-- grid-row
-- place-content
-- place-items
-- place-self
-- gap
-- justify-content
-- justify-items
-- justify-self
-- align-content
-- align-items
-- align-self
-- scroll-behavior
-- scroll-snap-type
-- scroll-snap-align
-- scroll-snap-stop
-- touch-action
-
-### 2. Visual
-
-- font / font-family / font-size / font-style / font-weight
-- line-height
-- letter-spacing / word-spacing
-- text-align
-- text-indent
-- text-transform / text-decoration
-- text-shadow
-- white-space
-- word-break
-- color
-- caret-color
-- list-style
-- list-style-type
-- list-style-position
-- background-color
-- background-image
-- background-size
-- background-position
-- background-repeat
-- background-attachment
-- background-clip
-- background-origin
-- background-blend-mode
-- border
-- border-top
-- border-right / border-inline-end
-- border-bottom
-- border-left / border-inline-start
-- border-width
-- border-style
-- border-color
-- border-radius
-- outline
-- outline-width
-- outline-color
-- outline-style
-- outline-offset
-- box-shadow
-- opacity
-- visibility
-- mix-blend-mode
-- filter
-- backdrop-filter
-- will-change
-- color-scheme
-- transform
-- transform-origin
-- transform-style
-- rotate
-- scale
-- translate
-- transition
-- transition-property
-- transition-duration
-- transition-timing-function
-- transition-delay
-- animation
-- animation-name
-- animation-duration
-- animation-timing-function
-- animation-delay
-- animation-iteration-count
-- animation-direction
-- animation-fill-mode
-- animation-play-state
-- object-fit
-- object-position
-- fill
-- stroke
-- stroke-width
-- cursor
-- pointer-events
-- user-select
-- resize
-- appearance
-- field-sizing
-- content
-
----
-
-## Documentation Standards
+## Documentation guidelines
 
 ### 1. Purpose of Docblocks
 
@@ -333,7 +172,7 @@ The assistant must propose and implement **elegant, maintainable, and scalable**
 
 ### Strict Mode Compliance
 
-When the user activates **Strict Mode**, the assistant must:
+The assistant must:
 
 - Fully obey the `CONTRIBUTING.md` rules without deviation
 - Avoid all interpretation, explanation, or assumption unless explicitly allowed
