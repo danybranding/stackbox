@@ -1,23 +1,24 @@
 {
-	"workbench.colorCustomizations": {
-		"activityBar.background": "#3c8ce7",
-		"titleBar.activeBackground": "#3c8ce7",
-		"titleBar.activeForeground": "#fff"
-	},
-	"cSpell.words": [
-		"benitez",
-		"daniel",
-		"danny",
-		"danybranding",
-		"DΔNNY",
-		"icns",
-		"maximizable",
-		"mysqld",
-		"osascript",
-		"pgrep",
-		"phpmyadmin",
-		"pkill",
-		"stackbox",
-		"ttyd"
-	]
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#3c8ce7",
+    "titleBar.activeBackground": "#3c8ce7",
+    "titleBar.activeForeground": "#fff"
+  },
+  "cSpell.words": [
+    "benitez",
+    "daniel",
+    "danny",
+    "danybranding",
+    "docblocks",
+    "DΔNNY",
+    "icns",
+    "maximizable",
+    "mysqld",
+    "osascript",
+    "pgrep",
+    "phpmyadmin",
+    "pkill",
+    "stackbox",
+    "ttyd"
+  ]
 }
